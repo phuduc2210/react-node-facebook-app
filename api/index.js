@@ -35,6 +35,11 @@ app.use("https://react-node-facebook-app.vercel.app/api/posts", postRoute);
 // })
 app.use(express.urlencoded({limit: '50mb'}));
 app.use("images", express.static(path.join(__dirname, "/images")))
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://react-facebook-app.vercel.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
