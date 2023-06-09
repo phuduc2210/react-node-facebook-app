@@ -92,7 +92,7 @@ export default function Topbar() {
             onClose={handleClose}
           >
             <Link to={`/profile/${user.username}`} className="link">
-              <MenuItem>Your Page</MenuItem>
+              <MenuItem>My Page</MenuItem>
             </Link>
             <Link to="/settings" className="link">
               <MenuItem className="menuTopbar">Settings</MenuItem>
