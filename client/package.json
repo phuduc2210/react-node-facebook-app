@@ -42,5 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://react-node-facebook-app.vercel.app//api/"
+  "proxy": "https://react-node-facebook-app.vercel.app/api/"
 }
