@@ -1,9 +1,9 @@
 import "./settings.css";
 import { useContext, useState } from "react";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import Rightbar from "../../components/rightbar/Rightbar";
 import { Image, Person } from "@mui/icons-material";
+import axiosInstance from "../../config";
 
 export default function Settings() {
   const { user } = useContext(AuthContext);
@@ -14,10 +14,7 @@ export default function Settings() {
   const [password, setPassword] = useState("");
   const [city, setCity] = useState("");
   const [from, setFrom] = useState("");
-  //   const [relationship, setRelationship] = useState("")
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  //   console.log("=============photo", file.photo);
-  //   console.log('============= user',user)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +31,7 @@ export default function Settings() {
       updatedUser.profilePicture = file.photo;
       updatedUser.coverPicture = coverimg.coverPhoto;
       try {
-        await axios.put("/users/" + user._id, updatedUser);
+        await axiosInstance.put("/users/" + user._id, updatedUser);
         localStorage.removeItem("user");
         window.location.replace("/login");
       } catch (err) {

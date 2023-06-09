@@ -9,6 +9,7 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const multer = require("multer");
 const path = require("path")
+const cors = require("cors")
 
 dotenv.config();
 mongoose.connect(
@@ -19,13 +20,20 @@ mongoose.connect(
   }
 );
 
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
 // middleware
 app.use(express.json({limit: '50mb'}));
 app.use(helmet());
 app.use(morgan("common"));
-app.use("https://react-node-facebook-app.vercel.app/api/users", userRoute);
-app.use("https://react-node-facebook-app.vercel.app/api/auth", authRoute);
-app.use("https://react-node-facebook-app.vercel.app/api/posts", postRoute);
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/posts", postRoute);
 // Route example
 // app.get("/",(req, res)=>{
 //     res.send("Welcome to Homepage")
@@ -35,11 +43,6 @@ app.use("https://react-node-facebook-app.vercel.app/api/posts", postRoute);
 // })
 app.use(express.urlencoded({limit: '50mb'}));
 app.use("images", express.static(path.join(__dirname, "/images")))
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://react-facebook-app.vercel.app");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -50,7 +53,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-app.post("https://react-node-facebook-app.vercel.app/api/upload", upload.single("file"), (req, res) => {
+app.post("/api/upload", upload.single("file"), (req, res) => {
   try {
     return res.status(200).json("File uploded successfully");
   } catch (error) {

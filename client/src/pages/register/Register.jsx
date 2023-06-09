@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./register.css";
 import { useRef } from "react";
-import axios from "axios";
+import axiosInstance from "../../config";
 
 export default function Register() {
   const email = useRef();
@@ -20,7 +20,7 @@ export default function Register() {
         password: password.current.value,
       };
       try {
-        await axios.post("/auth/register", user);
+        await axiosInstance.post("/auth/register", user);
         window.location.replace("/login")
       } catch (err) {
         console.log(err);

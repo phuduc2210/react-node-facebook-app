@@ -8,7 +8,7 @@ import {
   Cancel,
 } from "@mui/icons-material";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
+import axiosInstance from "../../config";
 
 export default function Share() {
   const { user } = useContext(AuthContext);
@@ -25,11 +25,11 @@ export default function Share() {
     if (file) {
       newPost.img = file.photo;
       try {
-        await axios.post("/upload", newPost);
+        await axiosInstance.post("/upload", newPost);
       } catch (err) {}
     }
     try {
-      await axios.post("/posts", newPost);
+      await axiosInstance.post("/posts", newPost);
       window.location.reload();
     } catch (err) {}
   };

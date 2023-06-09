@@ -1,12 +1,12 @@
 import "./post.css";
 import { MoreVert } from "@mui/icons-material";
-import axios from "axios";
 // import {Users} from "../../dummyData"
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import { AuthContext } from "../../context/AuthContext";
 import { Button, Menu, MenuItem } from "@mui/material";
+import axiosInstance from "../../config";
 
 export default function Post({ post, userId }) {
   const [like, setLike] = useState(post?.likes?.length);
@@ -32,7 +32,7 @@ export default function Post({ post, userId }) {
 
   const likeHandler = async () => {
     try {
-      await axios.put("/posts/" + post._id + "/like", {
+      await axiosInstance.put("/posts/" + post._id + "/like", {
         userId: currentUser._id,
       });
     } catch (err) {}
@@ -41,12 +41,10 @@ export default function Post({ post, userId }) {
   };
 
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-console.log('============= post',post)
-console.log('============= user',user)
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
+      const res = await axiosInstance.get(`/users?userId=${post.userId}`);
       setUser(res?.data);
     };
     fetchUser();
@@ -59,7 +57,7 @@ console.log('============= user',user)
       img: post.img,
     };
     try {
-      await axios.put(`/posts/${post._id}`, updatedPost);
+      await axiosInstance.put(`/posts/${post._id}`, updatedPost);
       window.location.replace(`/profile/${user.username}`);
     } catch (err) {
       console.log(err);
@@ -69,7 +67,7 @@ console.log('============= user',user)
   const handleDeletePost = async () => {
     handleClose();
     try {
-      await axios.delete(`/posts/${post._id}`, {
+      await axiosInstance.delete(`/posts/${post._id}`, {
         data: { userId: post.userId },
       });
       window.location.reload();
