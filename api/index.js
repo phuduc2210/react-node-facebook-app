@@ -23,9 +23,9 @@ mongoose.connect(
 app.use(express.json({limit: '50mb'}));
 app.use(helmet());
 app.use(morgan("common"));
-app.use("/api/users", userRoute);
-app.use("/api/auth", authRoute);
-app.use("/api/posts", postRoute);
+app.use("https://react-node-facebook-app.vercel.app/api/users", userRoute);
+app.use("https://react-node-facebook-app.vercel.app/api/auth", authRoute);
+app.use("https://react-node-facebook-app.vercel.app/api/posts", postRoute);
 // Route example
 // app.get("/",(req, res)=>{
 //     res.send("Welcome to Homepage")
@@ -45,7 +45,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-app.post("/api/upload", upload.single("file"), (req, res) => {
+app.post("https://react-node-facebook-app.vercel.app/api/upload", upload.single("file"), (req, res) => {
   try {
     return res.status(200).json("File uploded successfully");
   } catch (error) {
